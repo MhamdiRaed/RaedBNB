@@ -1,15 +1,13 @@
 asgiref==3.12.1
 attrs==26.1.0
 Django==6.1.2
-django-cors-headers==4.9.0
+Pillow>=11.0,<13.0
 djangorestframework==3.18.1
 djangorestframework_simplejwt==5.5.1
 drf-spectacular==0.30.0
 inflection==0.5.1
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
-psycopg==3.3.6
-psycopg-binary==3.3.6
 PyJWT==2.15.1
 PyYAML==6.0.3
 referencing==0.37.0

@@ -1,0 +1,31 @@
+{% extends "users/base.html" %}
+
+{% block title %}Contact us — RaedBNB{% endblock %}
+
+{% block content %}
+  <section class="contact-section">
+    <div class="contact-copy">
+      <p class="eyebrow">GET IN TOUCH</p>
+      <h1>Contact us</h1>
+      <p>Have a question about finding or listing a rental home? Send our team a message using the form and we’ll get back to you.</p>
+    </div>
+    <div class="contact-card">
+      {% if submitted %}
+        <p class="success-message" role="status">Thanks for contacting us. Your message has been received.</p>
+      {% endif %}
+      <form class="auth-form" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {% if field.name == "message" %}
+            <textarea class="form-input form-textarea" id="{{ field.id_for_label }}" name="{{ field.html_name }}" rows="5" required>{{ field.value|default_if_none:"" }}</textarea>
+          {% else %}
+            <input class="form-input" id="{{ field.id_for_label }}" name="{{ field.html_name }}" type="{% if field.name == 'email' %}email{% else %}text{% endif %}" value="{{ field.value|default_if_none:'' }}" required>
+          {% endif %}
+          {% for error in field.errors %}<p class="form-error" role="alert">{{ error }}</p>{% endfor %}
+        {% endfor %}
+        <button class="button button-primary auth-submit" type="submit">Send message</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

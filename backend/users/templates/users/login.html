@@ -1,0 +1,23 @@
+{% extends "users/base.html" %}
+
+{% block title %}Sign in — RaedBNB{% endblock %}
+
+{% block content %}
+  <section class="auth-section">
+    <div class="auth-card">
+      <h1>Welcome back</h1>
+      <p class="auth-description">Sign in to continue your search.</p>
+      <form class="auth-form" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        <label class="visually-hidden" for="username">Username</label>
+        <input class="form-input" id="username" name="username" autocomplete="username" placeholder="Username" required value="{{ request.POST.username }}">
+        <label class="visually-hidden" for="password">Password</label>
+        <input class="form-input" id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" required>
+        {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+        <button class="button button-primary auth-submit" type="submit">Sign in</button>
+      </form>
+      <p class="auth-switch">New here? <a href="{% url 'site:register' %}">Create an account</a></p>
+    </div>
+  </section>
+{% endblock %}

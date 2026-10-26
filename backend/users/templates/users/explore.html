@@ -1,0 +1,45 @@
+{% extends "users/base.html" %}
+
+{% block title %}Explore homes to rent — RaedBNB{% endblock %}
+
+{% block content %}
+  <section class="explore-section">
+    <div class="section-inner">
+      <div class="explore-heading">
+        <p class="eyebrow">RAEDBNB RENTALS</p>
+        <h1>Explore homes to rent</h1>
+        <p class="explore-intro">Search available homes and find the right fit for your next move.</p>
+      </div>
+      <form class="filter-bar" method="get">
+        <label class="search-filter">
+          <span class="visually-hidden">City or keyword</span>
+          <input name="q" type="search" placeholder="City or keyword…" value="{{ query }}">
+        </label>
+        <label class="price-filter">
+          <span>Max <strong id="max-price-value">{{ max_price }} DT</strong> / month</span>
+          <input id="max-price" name="max_price" type="range" min="300" max="3000" step="100" value="{{ max_price }}">
+        </label>
+        <button class="button button-primary filter-submit" type="submit">Show homes</button>
+      </form>
+      {% if listings %}
+        <div class="listing-grid explore-grid">
+          {% for listing in listings %}
+            {% include "users/_listing_card.html" with listing=listing %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="empty-results">No homes match your search. Try another city or price range.</p>
+      {% endif %}
+    </div>
+  </section>
+  <script>
+    const maxPrice = document.querySelector("#max-price");
+    const maxPriceValue = document.querySelector("#max-price-value");
+    maxPrice.addEventListener("input", () => {
+      maxPriceValue.textContent = `${maxPrice.value} DT`;
+    });
+    maxPrice.addEventListener("change", () => {
+      maxPrice.form.requestSubmit();
+    });
+  </script>
+{% endblock %}

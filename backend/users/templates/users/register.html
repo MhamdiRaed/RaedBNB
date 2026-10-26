@@ -1,0 +1,39 @@
+{% extends "users/base.html" %}
+
+{% block title %}Create an account — RaedBNB{% endblock %}
+
+{% block content %}
+  <section class="auth-section">
+    <div class="auth-card">
+      <h1>Create your account</h1>
+      <form class="auth-form" method="post">
+        {% csrf_token %}
+        <div class="role-options">
+          {% for value, label in form.fields.role.choices %}
+            <label class="role-option">
+              <input type="radio" name="role" value="{{ value }}" {% if form.role.value == value or not form.role.value and value == "client" %}checked{% endif %}>
+              <span>{{ label }}</span>
+            </label>
+          {% endfor %}
+        </div>
+        {% for field in form %}
+          {% if field.name != "role" %}
+            <label class="visually-hidden" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <input
+              class="form-input"
+              id="{{ field.id_for_label }}"
+              name="{{ field.html_name }}"
+              type="{% if field.name == 'password' %}password{% elif field.name == 'email' %}email{% else %}text{% endif %}"
+              placeholder="{% if field.name == 'password' %}Password (8+ characters){% elif field.name == 'email' %}Email{% elif field.name == 'phone' %}Phone (optional){% else %}Username{% endif %}"
+              {% if field.name == "password" %}minlength="8" autocomplete="new-password"{% elif field.name == "email" %}autocomplete="email"{% elif field.name == "username" %}autocomplete="username" required{% endif %}
+              {% if field.name != "phone" %}required{% endif %}
+              value="{% if field.name != 'password' %}{{ field.value|default_if_none:'' }}{% endif %}">
+            {% for error in field.errors %}<p class="form-error" role="alert">{{ error }}</p>{% endfor %}
+          {% endif %}
+        {% endfor %}
+        <button class="button button-primary auth-submit" type="submit">Create account</button>
+      </form>
+      <p class="auth-switch">Already registered? <a href="{% url 'site:login' %}">Sign in</a></p>
+    </div>
+  </section>
+{% endblock %}

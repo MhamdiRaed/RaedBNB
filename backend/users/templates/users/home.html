@@ -1,0 +1,48 @@
+{% extends "users/base.html" %}
+{% load static %}
+
+{% block title %}RaedBNB — Find a home to rent{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Find the right home,<br>the <span>right</span> way.</h1>
+      <p>Homes for rent · Clear monthly prices · Find your next neighborhood</p>
+      <form class="hero-search" action="{% url 'site:explore' %}" method="get">
+        <label class="visually-hidden" for="home-search">Search by home or city</label>
+        <input id="home-search" name="q" type="search" placeholder="e.g. 2-bedroom apartment in Tunis…" value="{{ request.GET.q }}">
+        <button type="submit" aria-label="Search homes">→</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="rental-benefits" aria-label="Rental search benefits">
+    <div class="benefits-inner">
+      <div class="benefit"><span class="benefit-icon">⌂</span><p>Homes to rent</p></div>
+      <div class="benefit"><span class="benefit-icon">⌖</span><p>Explore neighborhoods</p></div>
+      <div class="benefit"><span class="benefit-icon">د.ت</span><p>Monthly rental prices</p></div>
+      <div class="benefit"><span class="benefit-icon">▤</span><p>Room for every need</p></div>
+      <div class="benefit"><span class="benefit-icon">♡</span><p>Find a place to call home</p></div>
+      <div class="benefit"><span class="benefit-icon">⌂</span><p>Local homes across Tunisia</p></div>
+    </div>
+  </section>
+
+  <section class="featured-homes">
+    <div class="section-inner">
+      <div class="section-heading">
+        <div>
+          <h2>Find your place to <span>call home.</span></h2>
+          <p>Browse homes available to rent across Tunisia.</p>
+        </div>
+        <a class="view-all" href="{% url 'site:explore' %}">Explore all homes →</a>
+      </div>
+      <div class="listing-grid">
+        {% for listing in listings %}
+          {% include "users/_listing_card.html" with listing=listing %}
+        {% empty %}
+          <p class="empty-results">No rental homes are currently published.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

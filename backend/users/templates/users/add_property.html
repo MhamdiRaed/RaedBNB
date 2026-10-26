@@ -1,0 +1,49 @@
+{% extends "users/base.html" %}
+
+{% block title %}List a home — RaedBNB{% endblock %}
+
+{% block content %}
+  <section class="add-property-section">
+    <div class="section-inner add-property-inner">
+      <div class="add-property-heading">
+        <p class="eyebrow">FOR HOMEOWNERS</p>
+        <h1>List a home for rent</h1>
+        <p>Add your rental details below. Your listing will appear in the home catalogue and search once submitted.</p>
+      </div>
+
+      <div class="property-form-card">
+        {% if created %}
+          <p class="success-message" role="status">Your rental has been published and is now visible to people searching for a home.</p>
+        {% endif %}
+        <form class="property-form" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="property-field{% if field.name == 'description' or field.name == 'photo' %} property-field-wide{% endif %}">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}<p class="field-help">{{ field.help_text }}</p>{% endif %}
+              {% for error in field.errors %}<p class="form-error" role="alert">{{ error }}</p>{% endfor %}
+            </div>
+          {% endfor %}
+          {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}<p class="form-error property-field-wide" role="alert">{{ error }}</p>{% endfor %}
+          {% endif %}
+          <button class="button button-primary property-submit" type="submit">Publish rental</button>
+        </form>
+      </div>
+
+      <section class="landlord-listings" aria-labelledby="your-rentals-title">
+        <h2 id="your-rentals-title">Your rental listings</h2>
+        {% if my_properties %}
+          <div class="listing-grid">
+            {% for listing in my_properties %}
+              {% include "users/_listing_card.html" with listing=listing %}
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="landlord-empty">Your published rental listings will appear here.</p>
+        {% endif %}
+      </section>
+    </div>
+  </section>
+{% endblock %}

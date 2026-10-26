@@ -1,0 +1,15 @@
+{% extends "users/base.html" %}
+
+{% block title %}About us — RaedBNB{% endblock %}
+
+{% block content %}
+  <section class="info-section">
+    <div class="info-card">
+      <p class="eyebrow">ABOUT RAEDBNB</p>
+      <h1>Helping you find a place to call home.</h1>
+      <p>RaedBNB is a home-rental website focused on making it easier to find a place that fits your needs, your budget, and the way you want to live.</p>
+      <p>We bring rental homes and the people looking for them together in one simple place. Browse by location, compare monthly prices, and explore homes across Tunisia.</p>
+      <a class="button button-primary" href="{% url 'site:explore' %}">Explore homes</a>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,14 @@
+<article class="listing-card">
+  <div class="listing-image">
+    {% if listing.photo %}
+      <img src="{{ listing.photo.url }}" alt="Photo of {{ listing.title }}" loading="lazy">
+    {% endif %}
+    {% if listing.is_demo %}<span class="demo-label">Sample listing</span>{% endif %}
+    <span class="listing-heart" aria-hidden="true">♥</span>
+  </div>
+  <div class="listing-details">
+    <h3>{{ listing.title }}</h3>
+    <p class="listing-meta">{{ listing.city }} · {{ listing.bedrooms }} rooms · {{ listing.area_sqm|floatformat:"-2" }} m²</p>
+    <p class="listing-price">{{ listing.monthly_rent|floatformat:"-2" }} DT <span>/ month</span></p>
+  </div>
+</article>

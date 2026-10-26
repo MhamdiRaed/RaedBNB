@@ -1,0 +1,59 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1726">
+  <title>{% block title %}RaedBNB — Find a home to rent{% endblock %}</title>
+  <link rel="icon" href="{% static 'users/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'users/css/site.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="{% url 'site:home' %}" aria-label="RaedBNB home">
+        <span class="brand-name">Raed<span>BNB</span></span>
+      </a>
+      <details class="mobile-menu">
+        <summary aria-label="Open navigation menu"><span></span><span></span><span></span></summary>
+        <nav class="mobile-nav" aria-label="Mobile navigation">
+          <a href="{% url 'site:explore' %}">Explore homes</a>
+          <a href="{% url 'site:about' %}">About us</a>
+          <a href="{% url 'site:contact' %}">Contact us</a>
+          {% if user.is_authenticated %}
+            {% if user.role == "landlord" %}<a href="{% url 'site:add-property' %}">List a home</a>{% endif %}
+            <form method="post" action="{% url 'site:logout' %}">{% csrf_token %}<button type="submit">Sign out</button></form>
+          {% else %}
+            <a href="{% url 'site:login' %}">Sign in</a>
+            <a href="{% url 'site:register' %}">Create account</a>
+          {% endif %}
+        </nav>
+      </details>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="{% url 'site:explore' %}">Explore homes</a>
+        <a href="{% url 'site:about' %}">About us</a>
+        <a href="{% url 'site:contact' %}">Contact us</a>
+      </nav>
+      <div class="header-actions">
+        {% if user.is_authenticated %}
+          <span class="welcome-user">{{ user.username }}</span>
+          {% if user.role == "landlord" %}<a class="button button-primary" href="{% url 'site:add-property' %}">List a home</a>{% endif %}
+          <form method="post" action="{% url 'site:logout' %}">{% csrf_token %}<button class="button button-ghost" type="submit">Sign out</button></form>
+        {% else %}
+          <a class="button button-ghost" href="{% url 'site:login' %}">Sign in</a>
+          <a class="button button-primary" href="{% url 'site:register' %}">List a home</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">RaedBNB</p>
+    <p class="footer-tagline">More than a place… it's a new perspective.</p>
+    <p class="footer-meta">© {% now "Y" %} RaedBNB · Discover · Explore · Live</p>
+  </footer>
+</body>
+</html>
